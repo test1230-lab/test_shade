@@ -163,7 +163,7 @@ void display()
     GLint time = glGetUniformLocation(id, "time");
     if (time != -1)
     {
-        glUniform1f(time, etime_glut/10000);
+        glUniform1f(time, etime_glut/1000);
     }
    
     // clear the color buffer before each drawing 
