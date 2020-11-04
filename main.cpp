@@ -15,6 +15,34 @@ std::string vertexShader = "#version 430\n"
 
 
 std::string fragmentShader = "#version 430\n"
+"in vec2 pos;"
+"uniform float time;"
+"vec2 res;"
+"#define r(v,t) v *= mat2( C = cos((t)*time), S = sin((t)*time), -S, C )"
+"void main(){"
+"res.x = 640.0;"
+"res.y = 480.0;"
+"float C,S,r,x;"
+"vec4 p = vec4(pos,0,1)/res.yyxy-.5, d;"
+"p.x-=.4;"
+"r(p.xz,.13); r(p.yz,.2); r(p.xy,.1); "
+"d = p;"
+"p.z += 5.*time;"
+"for(float i=1.0; i>0.; i-=0.01){"
+"vec4 u = floor(p/8.0), t = mod(p, 8.0)-4., M,R;"
+"u = sin(78.0*(u+u.yzxw));"
+"r = 1.2;"
+"t = abs(t);"
+"M=max(t,t.yzxw);"
+"x = max(t.x,M.y)-r;"
+"R = r-u/2.-M;"
+"if(x<.01){ gl_FragColor = i*i*(1.+.2*t); break; }p -= d*x;}"
+"}";
+
+
+
+/*
+std::string fragmentShader = "#version 430\n"
 "in vec3 pos;"
 "uniform float time;"
 "void main() {"
@@ -22,7 +50,7 @@ std::string fragmentShader = "#version 430\n"
 "vec3 col = 0.5 + 0.5*cos(time+uv.xyx+vec3(0,2,4));"
 "gl_FragColor = vec4(col,1.0);"
 "}";
-
+*/
 
 // Compile and create shader object and returns its id 
 GLuint compileShaders(std::string shader, GLenum type)
