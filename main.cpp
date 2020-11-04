@@ -5,6 +5,7 @@
 #include <GL\freeglut.h> 
 #include <iostream> 
 #include <string> 
+#include <cmath>
 
 std::string vertexShader = "#version 430\n"
 "in vec3 pos;"
@@ -13,9 +14,12 @@ std::string vertexShader = "#version 430\n"
 "}";
 
 std::string fragmentShader = "#version 430\n"
+"in vec3 pos;"
 "uniform float time;"
 "void main() {"
-"gl_FragColor = vec4(time, 0, 0, 1);"
+"vec3 uv = pos/(640.0, 480.0);" 
+"vec3 col = 0.5 + 0.5*cos(time+uv.xyx+vec3(0,2,4));"
+"gl_FragColor = vec4(col,1.0);"
 "}";
 
 // Compile and create shader object and returns its id 
