@@ -13,19 +13,20 @@ std::string vertexShader = "#version 430\n"
 "gl_Position = vec4(pos, 0.15);"
 "}";
 
+
 std::string fragmentShader = "#version 430\n"
 "in vec3 pos;"
 "uniform float time;"
 "void main() {"
-"vec3 uv = pos/(640.0, 480.0);" 
+"vec3 uv = pos/(640.0, 480.0);"
 "vec3 col = 0.5 + 0.5*cos(time+uv.xyx+vec3(0,2,4));"
 "gl_FragColor = vec4(col,1.0);"
 "}";
 
+
 // Compile and create shader object and returns its id 
 GLuint compileShaders(std::string shader, GLenum type)
 {
-
     const char* shaderCode = shader.c_str();
     GLuint shaderId = glCreateShader(type);
 
@@ -163,6 +164,7 @@ void display()
     GLint time = glGetUniformLocation(id, "time");
     if (time != -1)
     {
+        std::cout << "time " << etime_glut / 1000 << "\r";
         glUniform1f(time, etime_glut/1000);
     }
    
