@@ -7,6 +7,7 @@
 #include <string> 
 #include <cmath>
 
+
 std::string vertexShader = "#version 430\n"
 "in vec3 pos;"
 "void main() {"
@@ -14,30 +15,31 @@ std::string vertexShader = "#version 430\n"
 "}";
 
 
+
 std::string fragmentShader = "#version 430\n"
 "#define r(v,t) v *= mat2( C = cos((t)*time), S = sin((t)*time), -S, C )\n"
 "in vec2 pos;"
 "uniform float time;"
 "vec2 res;"
-"out vec4 gl_FragColor;"
+"out vec4 f;"
 "void main(){"
 "res.x = 640.0;"
 "res.y = 480.0;"
 "float C,S,r,x;"
-"vec4 p = vec4(pos,0,1)/res.yyxy-0.5, d;"
-"p.x-=0.4;"
+"vec4 p = vec4(pos,0,1)/res.yyxy-0.5, d; p.x-=0.4;"
 "r(p.xz,0.13); r(p.yz,0.2); r(p.xy,0.1); "
 "d = p;"
 "p.z += 5.0*time;"
 "for(float i=1.0; i>0.0; i-=0.01){"
 "vec4 u = floor(p/8.0), t = mod(p, 8.0)-4.0, M,R;"
 "u = sin(78.0*(u+u.yzxw));"
-"r = 1.2;"
-"t = abs(t);"
+"r = 1.2; t = abs(t);"
 "M=max(t,t.yzxw);"
 "x = max(t.x,M.y)-r;"
 "R = r-u/2.0-M;"
-"if(x<.01){ gl_FragColor = i*i*(1.7+0.2*t); break; }p -= d*x;}"
+"if(x<.01){ f = i*i*(1.7+0.02*t); break; }"
+"p -= d*x;"
+"}"
 "}";
 
 
