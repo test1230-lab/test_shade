@@ -1,4 +1,10 @@
 ﻿  main.cpp
-C:\Users\wow\source\repos\Final_0\Final_0\main.cpp(104,5): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-C:\Users\wow\source\repos\Final_0\Final_0\main.cpp(166,37): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-LINK : fatal error LNK1104: cannot open file 'freeglut.lib'
+C:\Users\wow\source\repos\Final_0\Final_0\main.cpp(209,22): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  5 of 92 functions ( 5.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\wow\source\repos\Final_0\Release\vc120.pdb'; linking object as if no debug info
+  Final_0.vcxproj -> C:\Users\wow\source\repos\Final_0\Release\Final_0.exe

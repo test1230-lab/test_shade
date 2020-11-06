@@ -206,7 +206,6 @@ void display()
 
     glGetIntegerv(GL_CURRENT_PROGRAM, &id);
 
-
     float etime_glut = glutGet(GLUT_ELAPSED_TIME);
     etime_glut /= 1000;
 
@@ -216,6 +215,7 @@ void display()
         std::cout << "time: " << etime_glut << "\r";
         glUniform1f(time, etime_glut);
     }
+
 
     // clear the color buffer before each drawing 
     glClear(GL_COLOR_BUFFER_BIT);
