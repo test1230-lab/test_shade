@@ -10,22 +10,11 @@
 #include <cmath>
 
 
-/*
 std::string vertexShader = "#version 430\n"
 "in vec3 pos;"
 "void main() {"
 "gl_Position = vec4(pos, 1.0);"
 "}";
-*/
-
-
-std::string vertexShader = "#version 430\n"
-"in vec3 pos;"
-"void main() {"
-"gl_Position = vec4(pos, 1.0);"
-"}";
-
-
 
 
 std::string fragmentShader = "#version 430\n"
@@ -35,8 +24,10 @@ std::string fragmentShader = "#version 430\n"
 "vec2 res;"
 "out vec4 f;"
 "void main(){"
-"res.x = 640.0;"
-"res.y = 480.0;"
+//"res.x = 640.0;"
+//"res.y = 480.0;"
+"res.x = 1920.0;"
+"res.y = 1080.0;"
 "float C,S,r,x;"
 "vec4 p = vec4(gl_FragCoord,1)/res.yyxy-0.5, d; p.x-=0.4;"
 "r(p.xz,0.13); r(p.yz,0.2); r(p.xy,0.1); "
@@ -54,18 +45,6 @@ std::string fragmentShader = "#version 430\n"
 "}"
 "}";
 
-
-
-/*
-std::string fragmentShader = "#version 430\n"
-"in vec3 gl_FragCoord;"
-"uniform float time;"
-"void main() {"
-"vec3 uv = gl_FragCoord/(640.0, 480.0);"
-"vec3 col = 0.5 + 0.5*cos(time+uv.xyx+vec3(0,2,4));"
-"gl_FragColor = vec4(col,1.0);"
-"}";
-*/
 
 
 // Compile and create shader object and returns its id 
@@ -206,18 +185,13 @@ void display()
 
     glGetIntegerv(GL_CURRENT_PROGRAM, &id);
 
-    // Get the 'pos' variable location inside this program 
-    GLuint pos_get = glGetAttribLocation(id, "pos");
-
-    std::cout << "pos: " << pos_get << "\r";
-
     float etime_glut = glutGet(GLUT_ELAPSED_TIME);
     etime_glut /= 1000;
     
     GLint time = glGetUniformLocation(id, "time");
     if (time != -1)
     {
-        //std::cout << "time: " << etime_glut << "\r";
+        std::cout << "time: " << etime_glut << "\r";
         glUniform1f(time, etime_glut);
     }
    
@@ -242,10 +216,10 @@ int main(int argc, char** argv)
     std::cout << "running . . .\n";
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
-    //glutInitWindowSize(1920, 1080);
-    glutInitWindowSize(640, 480);
+    glutInitWindowSize(1920, 1080);
+    //glutInitWindowSize(640, 480);
     glutCreateWindow("OpenGl Window");
-    //glutFullScreen();
+    glutFullScreen();
     glewInit();
     init();
     glutDisplayFunc(display);
