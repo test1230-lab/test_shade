@@ -7,7 +7,6 @@
 
 #include <string> 
 
-#include <cmath>
 
 
 std::string vertexShader = "#version 430\n"
@@ -24,10 +23,8 @@ std::string fragmentShader = "#version 430\n"
 "vec2 res;"
 "out vec4 f;"
 "void main(){"
-//"res.x = 640.0;"
-//"res.y = 480.0;"
-"res.x = 1920.0;"
-"res.y = 1080.0;"
+"res.x = 640.0; res.y = 480.0;"
+//"res.x = 1920.0; res.y = 1080.0;"
 "float C,S,r,x;"
 "vec4 p = vec4(gl_FragCoord,1)/res.yyxy-0.5, d; p.x-=0.4;"
 "r(p.xz,0.13); r(p.yz,0.2); r(p.xy,0.1); "
@@ -142,6 +139,20 @@ GLuint loadDataInBuffers()
     return vboId;
 }
 
+
+/*
+void process_keys(unsigned char key, int x, int y)
+{
+    unsigned char i = 126;
+    if (key == 126)
+    {
+        std::cout << "~ pressed\n";
+        exit(1);
+    }
+}
+*/
+
+
 // Initialize and put everything together 
 void init()
 {
@@ -187,11 +198,11 @@ void display()
 
     float etime_glut = glutGet(GLUT_ELAPSED_TIME);
     etime_glut /= 1000;
-    
     GLint time = glGetUniformLocation(id, "time");
+
     if (time != -1)
     {
-        std::cout << "time: " << etime_glut << "\r";
+        //std::cout << "seconds elapsed: " << etime_glut << "\r";
         glUniform1f(time, etime_glut);
     }
    
@@ -216,13 +227,13 @@ int main(int argc, char** argv)
     std::cout << "running . . .\n";
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
-    glutInitWindowSize(1920, 1080);
-    //glutInitWindowSize(640, 480);
-    glutCreateWindow("OpenGl Window");
-    glutFullScreen();
+    //glutInitWindowSize(1920, 1080);
+    glutInitWindowSize(640, 480);
+    //glutFullScreen();
     glewInit();
     init();
     glutDisplayFunc(display);
+    //glutKeyboardFunc(process_keys);
     glutMainLoop();
     return 0;
 }
