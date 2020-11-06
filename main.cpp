@@ -206,10 +206,6 @@ void display()
 
     glGetIntegerv(GL_CURRENT_PROGRAM, &id);
 
-    // Get the 'pos' variable location inside this program 
-    GLuint pos_get = glGetAttribLocation(id, "pos");
-
-    std::cout << "pos: " << pos_get << "\r";
 
     float etime_glut = glutGet(GLUT_ELAPSED_TIME);
     etime_glut /= 1000;
@@ -217,7 +213,7 @@ void display()
     GLint time = glGetUniformLocation(id, "time");
     if (time != -1)
     {
-        //std::cout << "time: " << etime_glut << "\r";
+        std::cout << "time: " << etime_glut << "\r";
         glUniform1f(time, etime_glut);
     }
 
