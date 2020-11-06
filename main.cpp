@@ -7,6 +7,16 @@
 
 #include <string> 
 
+#include <cmath>
+
+
+/*
+std::string vertexShader = "#version 430\n"
+"in vec3 pos;"
+"void main() {"
+"gl_Position = vec4(pos, 1.0);"
+"}";
+*/
 
 
 std::string vertexShader = "#version 430\n"
@@ -16,6 +26,8 @@ std::string vertexShader = "#version 430\n"
 "}";
 
 
+
+
 std::string fragmentShader = "#version 430\n"
 "#define r(v,t) v *= mat2( C = cos((t)*time), S = sin((t)*time), -S, C )\n"
 "in vec3 gl_FragCoord;"
@@ -23,8 +35,8 @@ std::string fragmentShader = "#version 430\n"
 "vec2 res;"
 "out vec4 f;"
 "void main(){"
-"res.x = 640.0; res.y = 480.0;"
-//"res.x = 1920.0; res.y = 1080.0;"
+"res.x = 640.0;"
+"res.y = 480.0;"
 "float C,S,r,x;"
 "vec4 p = vec4(gl_FragCoord,1)/res.yyxy-0.5, d; p.x-=0.4;"
 "r(p.xz,0.13); r(p.yz,0.2); r(p.xy,0.1); "
@@ -42,6 +54,18 @@ std::string fragmentShader = "#version 430\n"
 "}"
 "}";
 
+
+
+/*
+std::string fragmentShader = "#version 430\n"
+"in vec3 gl_FragCoord;"
+"uniform float time;"
+"void main() {"
+"vec3 uv = gl_FragCoord/(640.0, 480.0);"
+"vec3 col = 0.5 + 0.5*cos(time+uv.xyx+vec3(0,2,4));"
+"gl_FragColor = vec4(col,1.0);"
+"}";
+*/
 
 
 // Compile and create shader object and returns its id 
@@ -119,7 +143,7 @@ GLuint linkProgram(GLuint vertexShaderId, GLuint fragmentShaderId)
 GLuint loadDataInBuffers()
 {
     GLfloat vertices[] = { // vertex coordinates                            
-                           -1, -1, 0, 
+                           -1, -1, 0,
                            1, -1, 0,
                            -1, 1, 0,
                            1, 1, 0
@@ -139,20 +163,6 @@ GLuint loadDataInBuffers()
     return vboId;
 }
 
-
-/*
-void process_keys(unsigned char key, int x, int y)
-{
-    unsigned char i = 126;
-    if (key == 126)
-    {
-        std::cout << "~ pressed\n";
-        exit(1);
-    }
-}
-*/
-
-
 // Initialize and put everything together 
 void init()
 {
@@ -168,7 +178,7 @@ void init()
 
     // Get the 'pos' variable location inside this program 
     GLuint posAttributePosition = glGetAttribLocation(programId, "pos");
-   
+
     GLuint vaoId;
     glGenVertexArrays(1, &vaoId); // Generate VAO 
 
@@ -184,7 +194,7 @@ void init()
 
     // Use this program for rendering. 
     glUseProgram(programId);
-    
+
 }
 
 // Function that does the drawing 
@@ -196,19 +206,24 @@ void display()
 
     glGetIntegerv(GL_CURRENT_PROGRAM, &id);
 
+    // Get the 'pos' variable location inside this program 
+    GLuint pos_get = glGetAttribLocation(id, "pos");
+
+    std::cout << "pos: " << pos_get << "\r";
+
     float etime_glut = glutGet(GLUT_ELAPSED_TIME);
     etime_glut /= 1000;
-    GLint time = glGetUniformLocation(id, "time");
 
+    GLint time = glGetUniformLocation(id, "time");
     if (time != -1)
     {
-        //std::cout << "seconds elapsed: " << etime_glut << "\r";
+        //std::cout << "time: " << etime_glut << "\r";
         glUniform1f(time, etime_glut);
     }
-   
+
     // clear the color buffer before each drawing 
     glClear(GL_COLOR_BUFFER_BIT);
-        
+
     // draw triangles starting from index 0 and 
     // using 3 indices 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -229,11 +244,11 @@ int main(int argc, char** argv)
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
     //glutInitWindowSize(1920, 1080);
     glutInitWindowSize(640, 480);
+    glutCreateWindow("OpenGl Window");
     //glutFullScreen();
     glewInit();
     init();
     glutDisplayFunc(display);
-    //glutKeyboardFunc(process_keys);
     glutMainLoop();
     return 0;
 }
